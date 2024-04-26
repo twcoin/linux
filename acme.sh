@@ -201,7 +201,7 @@ acme_standalone(){
         fi
     fi
     mkdir -p /home/web/certs  # 创建一个对应域名的文件夹
-    bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /home/web/certs/${domain}.private.key --fullchain-file /home/web/certs/${domain}.cert.crt --ecc
+    bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /home/web/certs/${domain}.key --fullchain-file /home/web/certs/${domain}.crt --ecc
     checktls ${domain}  # 传递域名到checktls函数
 }
 
@@ -226,7 +226,7 @@ acme_cfapiTLD(){
         bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -k ec-256 --insecure
     fi
     mkdir -p /home/web/certs  # 创建一个对应域名的文件夹
-    bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /home/web/certs/${domain}.private.key --fullchain-file /home/web/certs/${domain}.cert.crt --ecc
+    bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /home/web/certs/${domain}.key --fullchain-file /home/web/certs/${domain}.crt --ecc
     checktls ${domain}  # 传递域名到checktls函数
 }
 
@@ -252,14 +252,14 @@ acme_cfapiNTLD(){
         bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "*.${domain}" -d "${domain}" -k ec-256 --insecure
     fi
     mkdir -p /home/web/certs  # 创建一个对应域名的文件夹
-    bash ~/.acme.sh/acme.sh --install-cert -d "*.${domain}" --key-file /home/web/certs/${domain}.private.key --fullchain-file /home/web/certs/${domain}.cert.crt --ecc
+    bash ~/.acme.sh/acme.sh --install-cert -d "*.${domain}" --key-file /home/web/certs/${domain}.key --fullchain-file /home/web/certs/${domain}.crt --ecc
     checktls ${domain}  # 传递域名到checktls函数
 }
 
 checktls() {
 domain=$1  # 从参数获取域名
-    if [[ -f /home/web/certs/${domain}.cert.crt && -f /home/web/certs/${domain}.private.key ]]; then
-        if [[ -s /home/web/certs/${domain}.cert.crt && -s /home/web/certs/${domain}.private.key ]]; then
+    if [[ -f /home/web/certs/${domain}.crt && -f /home/web/certs/${domain}.key ]]; then
+        if [[ -s /home/web/certs/${domain}.crt && -s /home/web/certs/${domain}.key ]]; then
             if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
                 wg-quick up wgcf >/dev/null 2>&1
             fi
@@ -270,8 +270,8 @@ domain=$1  # 从参数获取域名
             sed -i '/--cron/d' /etc/crontab >/dev/null 2>&1
             echo "0 0 * * * root bash /root/.acme.sh/acme.sh --cron -f >/dev/null 2>&1" >> /etc/crontab
             green "证书申请成功! 脚本申请到的证书 (cert.crt) 和私钥 (private.key) 文件已保存到 /home/web/certs 文件夹下"
-            yellow "证书crt文件路径如下: /home/web/certs/${domain}.cert.crt"
-            yellow "私钥key文件路径如下: /home/web/certs/${domain}.private.key"
+            yellow "证书crt文件路径如下: /home/web/certs/${domain}.crt"
+            yellow "私钥key文件路径如下: /home/web/certs/${domain}.key"
             back2menu
         else
             if [[ -n $(type -P wg-quick) && -n $(type -P wgcf) ]]; then
@@ -305,7 +305,7 @@ revoke_cert() {
         bash ~/.acme.sh/acme.sh --revoke -d ${domain} --ecc
         bash ~/.acme.sh/acme.sh --remove -d ${domain} --ecc
         rm -rf ~/.acme.sh/${domain}_ecc
-        rm -f /home/web/certs/${domain}.cert.crt /home/web/certs/${domain}.private.key
+        rm -f /home/web/certs/${domain}.crt /home/web/certs/${domain}.key
         green "撤销${domain}的域名证书成功"
         back2menu
     else
