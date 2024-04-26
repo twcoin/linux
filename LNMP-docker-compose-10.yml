@@ -4,6 +4,7 @@ services:
     image: nginx:alpine
     container_name: nginx
     restart: always
+    #network_mode: host
     ports:
       - "80:80"
       - "443:443"
@@ -11,9 +12,12 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./conf.d:/etc/nginx/conf.d
-      - /home/certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs
+      ##- /home/certs:/etc/nginx/certs
       - ./html:/var/www/html
       - ./log/nginx:/var/log/nginx
+    depends_on:
+      - 3xui
 
 
   php:
@@ -37,9 +41,9 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: webroot
-      MYSQL_USER: kejilion
-      MYSQL_PASSWORD: kejilionYYDS
+      MYSQL_ROOT_PASSWORD: tLcfVedZvVJ2mxHL3YxsFA==
+      MYSQL_USER: e5db9173
+      MYSQL_PASSWORD: 3HpjKqpAShk=
 
   redis:
     image: redis:alpine
@@ -47,3 +51,27 @@ services:
     restart: always
     volumes:
       - ./redis:/data
+
+  3xui:
+  ##docker exec 3xui /app/x-ui setting -show
+  ##docker exec 3xui /app/x-ui setting -username july -password QaH0um7ym*v4
+    image: ghcr.io/mhsanaei/3x-ui
+    container_name: 3xui
+    restart: always
+    #network_mode: host
+    ports:
+      - "2053:2053"
+      - "43344:43344"
+    volumes:
+      - $PWD/dbxui:/etc/x-ui
+      - $PWD/certs:/root/cert
+      ##- /home/certs:/root/cert
+    environment:
+      XRAY_VMESS_AEAD_FORCED: "false"
+    tty: true
+    depends_on:
+      - php
+      - php74
+      - redis
+      - mysql
+
