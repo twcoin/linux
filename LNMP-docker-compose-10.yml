@@ -1,29 +1,30 @@
-
 services:
   nginx:
     image: nginx:alpine
     container_name: nginx
     restart: always
-    #network_mode: host
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"      
+    network_mode: host
+    #ports:
+      #- "80:80"
+      #- "443:443"
+      #- "443:443/udp"      
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./conf.d:/etc/nginx/conf.d
       - ./certs:/etc/nginx/certs
-      ##- /home/certs:/etc/nginx/certs
       - ./html:/var/www/html
       - ./log/nginx:/var/log/nginx
     depends_on:
-      - 3xui
-
+      - php
+      - php74
+      - mysql
+      - redis
 
   php:
     image: php:fpm-alpine
     container_name: php
     restart: always
+    network_mode: host
     volumes:
       - ./html:/var/www/html
 
@@ -31,6 +32,10 @@ services:
     image: php:7.4-fpm-alpine
     container_name: php74
     restart: always
+    expose:
+      - "9000"
+    #ports:
+      #- "9074:9000"
     volumes:
       - ./html:/var/www/html
 
@@ -38,40 +43,18 @@ services:
     image: mysql
     container_name: mysql
     restart: always
+    network_mode: host
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: tLcfVedZvVJ2mxHL3YxsFA==
-      MYSQL_USER: e5db9173
-      MYSQL_PASSWORD: 3HpjKqpAShk=
+      MYSQL_ROOT_PASSWORD: webroot
+      MYSQL_USER: kejilion
+      MYSQL_PASSWORD: kejilionYYDS
 
   redis:
     image: redis:alpine
     container_name: redis
     restart: always
+    network_mode: host
     volumes:
       - ./redis:/data
-
-  3xui:
-  ##docker exec 3xui /app/x-ui setting -show
-  ##docker exec 3xui /app/x-ui setting -username july -password QaH0um7ym*v4
-    image: ghcr.io/mhsanaei/3x-ui
-    container_name: 3xui
-    restart: always
-    #network_mode: host
-    ports:
-      - "2053:2053"
-      - "43344:43344"
-    volumes:
-      - $PWD/dbxui:/etc/x-ui
-      - $PWD/certs:/root/cert
-      ##- /home/certs:/root/cert
-    environment:
-      XRAY_VMESS_AEAD_FORCED: "false"
-    tty: true
-    depends_on:
-      - php
-      - php74
-      - redis
-      - mysql
-
