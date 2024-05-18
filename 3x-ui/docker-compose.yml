@@ -45,7 +45,7 @@ services: #docker exec baota /etc/init.d/bt xx
       #- "3306"
     volumes:
       - ./dbxui:/etc/x-ui
-      - /home/certs:/root/cert
+      - /root/certs:/root/cert
       #- ./certs:/root/cert
       #- $PWD/dbxui:/etc/x-ui
       #- $PWD/certs:/root/cert
