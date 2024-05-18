@@ -32,10 +32,10 @@ services:
     image: php:7.4-fpm-alpine
     container_name: php74
     restart: always
-    expose:
-      - "9000"
-    #ports:
-      #- "9074:9000"
+    #expose:
+      #- "9000"
+    ports:
+      - "9074:9000"
     volumes:
       - ./html:/var/www/html
 
