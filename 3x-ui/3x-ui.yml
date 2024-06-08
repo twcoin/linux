@@ -1,0 +1,32 @@
+services: 
+  3xui:
+  ##docker exec 3xui /app/x-ui setting -show
+  ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
+  ##docker-compose -f /home/docker/3x-ui.yml up -d
+    image: ghcr.io/mhsanaei/3x-ui
+    container_name: 3xui
+    restart: always
+    #network_mode: bridge
+    network_mode: host
+    #ports:
+      #- "2053:2053"
+    #expose仅将指定的端口暴露给links的容器，而不对宿主机开放。
+    #和ports的区别在于，ports可以映射宿主机别的端口到容器中。
+    #expose: 
+      #- "3306"
+    volumes:
+      - ./3xui-DB:/etc/x-ui
+      - ./certs:/root/cert
+      #- ./certs:/root/cert
+      #- $PWD/dbxui:/etc/x-ui
+      #- $PWD/certs:/root/cert
+    environment:
+      XRAY_VMESS_AEAD_FORCED: "false"
+      tty: true
+    #links将容器与当前容器链接起来，以使得当前容器可以访问目标容器expose的端口
+    #格式为 容器的原名:映射到当前容器中的名称
+    #links:
+      #- app:app
+    #依赖的容器列表，只有这些容器都成功启动了，才会启动当前容器
+    #depends_on:
+      #- php
