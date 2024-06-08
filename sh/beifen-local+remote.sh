@@ -12,13 +12,13 @@ cd / && tar czvf /home/root_$(date +"%Y%m%d%H%M%S").tar.gz root
 echo "备份文件创建完成"
 echo "备份文件备份至远端设备中……"
 # Transfer the tar archive to another VPS
-cd /home/ && ls -t /home/web*.tar.gz | head -1 | xargs -I {} sshpass -p MpUAA1uKPdP6dr38 scp -o StrictHostKeyChecking=no -P 22 {} root@129.148.56.163:/home/
+cd /home/ && ls -t /home/web*.tar.gz | head -1 | xargs -I {} sshpass -p PASSWORD scp -o StrictHostKeyChecking=no -P 22 {} root@IP:/home/
 echo "web备份文件远程备份完成"
-cd /home/ && ls -t /home/certs*.tar.gz | head -1 | xargs -I {} sshpass -p MpUAA1uKPdP6dr38 scp -o StrictHostKeyChecking=no -P 22 {} root@129.148.56.163:/home/
+cd /home/ && ls -t /home/certs*.tar.gz | head -1 | xargs -I {} sshpass -p PASSWORD scp -o StrictHostKeyChecking=no -P 22 {} root@IP:/home/
 echo "certs备份文件远程备份完成"
-cd /home/ && ls -t /home/3x-ui*.tar.gz | head -1 | xargs -I {} sshpass -p MpUAA1uKPdP6dr38 scp -o StrictHostKeyChecking=no -P 22 {} root@129.148.56.163:/home/
+cd /home/ && ls -t /home/3x-ui*.tar.gz | head -1 | xargs -I {} sshpass -p PASSWORD scp -o StrictHostKeyChecking=no -P 22 {} root@IP:/home/
 echo "3x-ui备份文件远程备份完成"
-cd /home/ && ls -t /home/root*.tar.gz | head -1 | xargs -I {} sshpass -p MpUAA1uKPdP6dr38 scp -o StrictHostKeyChecking=no -P 22 {} root@129.148.56.163:/home/
+cd /home/ && ls -t /home/root*.tar.gz | head -1 | xargs -I {} sshpass -p PASSWORD scp -o StrictHostKeyChecking=no -P 22 {} root@IP:/home/
 echo "root备份文件远程备份完成"
 
 # Keep only 5 tar archives and delete the rest
