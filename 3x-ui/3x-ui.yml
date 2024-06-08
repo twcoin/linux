@@ -2,7 +2,7 @@ services:
   3xui:
   ##docker exec 3xui /app/x-ui setting -show
   ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
-  ##docker-compose -f /home/docker/3x-ui.yml up -d
+  ##docker compose -f /home/docker/3x-ui.yml up -d
     image: ghcr.io/mhsanaei/3x-ui
     container_name: 3xui
     restart: always
