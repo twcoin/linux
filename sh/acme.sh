@@ -1,12 +1,7 @@
 #!/bin/bash
-
-mkdir -p /home/web /root/certs /home/docker
-
-#mkdir -p /home/web /root/certs && cd /home/web
+#version20240609
 
 
-#ln -s /root/certs /home/web/certs
-#ln -s /root/certs /home/docker/certs
 ln -sf ~/acme.sh /usr/local/bin/zs
 
 RED="\033[31m"
@@ -370,6 +365,7 @@ uninstall() {
 menu() {
     clear
     echo "#######################################################################"
+    #echo -e "#                   ${RED}Acme  证书一键申请脚本${PLAIN}                            #"
     echo -e "#                   ${RED}Acme  证书一键申请脚本${PLAIN}                            #"
     echo -e "# ${GREEN}作者${PLAIN}: 爱分享的小企鹅                                               #"
     echo -e "# ${GREEN}网站${PLAIN}: https://www.youtube.com/channel/UCLd2LDzFPFoUnuQsP8y1wRA      #"        
