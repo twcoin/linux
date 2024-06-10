@@ -1,3 +1,4 @@
+#UPDATE:2024-06-10
 services: 
   3xui:
   ##docker exec 3xui /app/x-ui setting -show
