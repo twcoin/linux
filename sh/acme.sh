@@ -774,6 +774,7 @@ self-menu() {
 	esac
 }
 #
+clear
 self-menu
 
 #xxxxxx
