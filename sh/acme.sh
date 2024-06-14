@@ -376,8 +376,8 @@ uninstall() {
 1_Change_Mirrors() {
 sh_shell="/root/shell"
 cd $sh_shell && touch ChangeMirrors.sh
-sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
@@ -417,8 +417,8 @@ self-menu
 2_ChangeMirrors_abroad() {
 sh_shell="/root/shell"
 cd $sh_shell && touch ChangeMirrors.sh
-sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
@@ -458,8 +458,8 @@ self-menu
 3_Docker_Installation() {
 sh_shell="/root/shell"
 cd $sh_shell && touch DockerInstallation.sh
-sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
@@ -639,8 +639,8 @@ fi
 
 
 cd $shell_docker_compose && touch 3x-ui.yml
-sh_v_new=$(	 https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(	 https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
 
@@ -706,8 +706,8 @@ gitee_URL="https://gitee.com/foxfix/linux/raw/main/sh/acme.sh"
 
 sh_dir="/root"
 
-sh_v_new=$(curl -s $githubusercontent_URL | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(curl -s $githubusercontent_URL | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s $githubusercontent_URL | grep "Update-Time" | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | sed 's/.*\(20.*\)/\1/')
 
