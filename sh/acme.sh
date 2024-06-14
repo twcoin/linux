@@ -1,12 +1,10 @@
 #!/bin/bash
 #version：20240609
 
-
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
-cd ~ && touch acme.sh
-
-ln -sf ~/acme.sh /usr/local/bin/zs
+#cd ~ && touch acme.sh
+#ln -sf ~/acme.sh /usr/local/bin/zs
 
 #红色
 RED="\033[31m"
@@ -641,7 +639,7 @@ fi
 
 
 cd $shell_docker_compose && touch 3x-ui.yml
-sh_v_new=$(curl -s https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v_new=$(	 https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}')
 sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}')
 #sh_v_new=$(curl -s https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
@@ -695,6 +693,48 @@ opkg install kmod-nft-tproxy
 opkg install xray-core
 opkg install luci-app-v2raya
 /etc/init.d/v2raya start
+self-menu
+}
+#更新脚本
+12_update_acme_sh() {
+
+githubusercontent_URL="https://raw.githubusercontent.com/twcoin/linux/main/sh/acme.sh"
+github_URL="https://github.com/twcoin/linux/releases/latest/acme.sh"
+gitee_URL="https://gitee.com/foxfix/linux/raw/main/sh/acme.sh"
+
+sh_dir="/root"
+cd $sh_dir && touch acme.sh
+
+sh_v_new=$(curl -s $githubusercontent_URL | grep "#version" | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v=$(cat $sh_dir/acme.sh | grep "#version" | awk '{match($0, /20/); print substr($0, RSTART)}')
+#sh_v_new=$(curl -s $githubusercontent_URL | grep "#version" | sed 's/.*\(20.*\)/\1/')
+#sh_v=$(cat $sh_dir/acme.sh | grep "#version" | sed 's/.*\(20.*\)/\1/')
+
+if [ "$sh_v" = "$sh_v_new" ]; then
+	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	self-menu
+else
+	echo "发现新版本！"
+	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo "------------------------"
+	cd $sh_dir
+	# 设置源文件路径和目标目录
+	source_file="acme.sh"
+	##destination_dir="~"
+	# 获取当前日期和时间，并格式化为YYYYMMDD_HHMMSS
+	timestamp=$(date +"%Y%m%d_%H%M%S")
+	# 提取源文件的扩展名（如果有的话）
+	extension="${source_file##*.}"
+	# 构建带有时间戳的目标文件名
+	destination_file="bak-$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
+	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
+	# 备份文件并指定新的文件名
+	cp "${source_file}" "${destination_file}"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
+	curl -L -O $githubusercontent_URL && chmod +x acme.sh && ./acme.sh
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+fi
 self-menu
 }
 #acme脚本菜单
@@ -764,11 +804,13 @@ self-menu() {
 	echo -e " ${GREEN}9.${PLAIN} 解决 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 系统中tab补全问题${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}10.${PLAIN}在 ${RED}openwrt${PLAIN} 中安装v2raya${PLAIN}"
-	echo -e " ${GREEN}11.${PLAIN}Acme证书一键申请脚本${GREEN}作者${PLAIN}: 爱分享的小企鹅"
+	echo -e " ${GREEN}11.${PLAIN}Acme证书一键申请脚本${GREEN} 作者${PLAIN}: 爱分享的小企鹅${PLAIN}"
 	echo " -------------"
-	echo -e " ${GREEN}0.${PLAIN} 退出脚本"
+	echo -e " ${GREEN}12.${PLAIN}更新脚本${PLAIN}"
+	echo " -------------"
+	echo -e " ${GREEN}0.${PLAIN} 退出脚本${PLAIN}"
 	echo ""
-	read -rp "请输入选项 [0-11]: " NumberInput
+	read -rp "请输入选项 [0-12]: " NumberInput
 	case "$NumberInput" in
 		1) 1_Change_Mirrors ;;
 		2) 2_ChangeMirrors_abroad ;;
@@ -780,6 +822,7 @@ self-menu() {
 		9) 9_install_bash-completion ;;
 		10) 10_ainstall_v2raya_openwrt ;;
 		11) acme-menu ;;
+		12) 12_update_acme_sh ;;
 		*) exit 1 ;;
 	esac
 }
