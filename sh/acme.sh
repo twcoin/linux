@@ -407,7 +407,7 @@ else
 	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
-	echo "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
@@ -448,7 +448,7 @@ else
 	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
-	echo "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
@@ -489,7 +489,7 @@ else
 	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
-	echo "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh && chmod +x ./DockerInstallation.sh
 	sed -i "s|&& clear| |g" ./DockerInstallation.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
@@ -511,13 +511,20 @@ if [ "$sh_v" = "$sh_v_new" ]; then
 	bash kejilion.sh
 	self-menu
 else
+	echo "更新日志"
+	echo "------------------------"
+	echo "全部日志: https://raw.githubusercontent.com/kejilion/sh/main/kejilion_sh_log.txt"
+	echo "------------------------"
+	curl -s https://raw.githubusercontent.com/kejilion/sh/main/kejilion_sh_log.txt | tail -n 35
+	echo ""
+	echo ""
 	echo "发现新版本！"
 	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
 	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
-	source_file="DockerInstallation.sh"
+	source_file="kejilion.sh"
 	##destination_dir="~"
 	# 获取当前日期和时间，并格式化为YYYYMMDD_HHMMSS
 	timestamp=$(date +"%Y%m%d_%H%M%S")
@@ -528,8 +535,9 @@ else
 	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
-	echo "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x ./kejilion.sh
+	sed -i "s|clear|###clear|g" ./kejilion.sh
 	sed -i "s|docker stop nginx >|##docker stop nginx >|g" ./kejilion.sh
 	sed -i "s|docker start nginx >|##docker start nginx >|g" ./kejilion.sh
 	sed -i "s|certbot certonly|##certbot certonly|g" ./kejilion.sh
@@ -539,7 +547,7 @@ else
 	sed -i "s|iptables -P|##iptables -P|g" ./kejilion.sh
 	sed -i "s|iptables -F|##iptables -F|g" ./kejilion.sh
 	sed -i "s|ip6tables -P|##ip6tables -P|g" ./kejilion.sh
-	sed -i "s|ip6tables -F|clear|g" ./kejilion.sh
+	sed -i "s|ip6tables -F|ip6tables=ip6tables -F|g" ./kejilion.sh
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" ./kejilion.sh
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
 	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
@@ -590,14 +598,16 @@ curl -L -O $GEOSITE_URL
 
 echo -e "${GREEN}>>> delete old dat files...${PLAIN}"
 
-chmod 755 geoip.dat
-chmod 755 geosite.dat
 
 cp -r $tmp_folder/geoip.dat $geodata_xray/geoip.dat
 cp -r $tmp_folder/geosite.dat $geodata_xray/geosite.dat
 
 cp -r $tmp_folder/geoip.dat $geodata_v2ray/geoip.dat
 cp -r $tmp_folder/geosite.dat $geodata_v2ray/geosite.dat
+
+
+chmod 755 $geodata_xray/geo*.dat
+chmod 755 $geodata_v2ray/geo*.dat
 
 echo -e "${GREEN}>>> file information...${PLAIN}"
 ls -l $geodata_xray/*
@@ -657,7 +667,7 @@ else
 	##destination_file="${destination_dir}$(basename "${source_file}" ".${extension}")_${timestamp}.${extension}"
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
-	echo "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]"
+	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml && chmod +x ./3x-ui.yml
 	echo -e "${GREEN}已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
 fi
