@@ -697,21 +697,23 @@ self-menu
 }
 #更新脚本
 12_update_acme_sh() {
+cd ~ && touch acme.sh
+ln -sf ~/acme.sh /usr/local/bin/zs
 
 githubusercontent_URL="https://raw.githubusercontent.com/twcoin/linux/main/sh/acme.sh"
 github_URL="https://github.com/twcoin/linux/releases/latest/acme.sh"
 gitee_URL="https://gitee.com/foxfix/linux/raw/main/sh/acme.sh"
 
 sh_dir="/root"
-cd $sh_dir && touch acme.sh
 
-sh_v_new=$(curl -s $githubusercontent_URL | grep "#version" | awk '{match($0, /20/); print substr($0, RSTART)}')
-sh_v=$(cat $sh_dir/acme.sh | grep "#version" | awk '{match($0, /20/); print substr($0, RSTART)}')
-#sh_v_new=$(curl -s $githubusercontent_URL | grep "#version" | sed 's/.*\(20.*\)/\1/')
-#sh_v=$(cat $sh_dir/acme.sh | grep "#version" | sed 's/.*\(20.*\)/\1/')
+sh_v_new=$(curl -s $githubusercontent_URL | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}')
+sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | awk '{match($0, /20/); print substr($0, RSTART)}')
+#sh_v_new=$(curl -s $githubusercontent_URL | grep "Update-Time" | sed 's/.*\(20.*\)/\1/')
+#sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	cd $sh_dir
 	self-menu
 else
 	echo "发现新版本！"
@@ -732,7 +734,7 @@ else
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
-	curl -L -O $githubusercontent_URL && chmod +x acme.sh && ./acme.sh
+	curl -L -O $githubusercontent_URL && chmod +x acme.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
 fi
 self-menu
