@@ -1,5 +1,5 @@
 #!/bin/bash
-#version：20240614
+#Update-Time：20240614
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
