@@ -433,11 +433,32 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 #sh_v_new=$(curl -s https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
+
+XuanZhi() {
+	echo -e " ${GREEN}1.${PLAIN} 设置官方软件源${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
+	echo -e " ${GREEN}2.${PLAIN} 设置海外软件源${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
+	case "$NumberInput" in
+		1) use_official_source ;;
+		2) use_abroad ;;
+		*) 2_ChangeMirrors_abroad ;;
+	esac
+}
+
+#官方软件源
+use_official_source() {
+bash ChangeMirrors.sh --use-official-source
+self-menu
+}
+#海外软件源
+use_abroad() {
+bash ChangeMirrors.sh --abroad
+self-menu
+}
+
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
-	bash ChangeMirrors.sh --abroad
-	self-menu
+	XuanZhi
 else
 	echo "发现新版本！"
 	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
@@ -460,7 +481,7 @@ else
 	curl -sS -O https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
-	bash ChangeMirrors.sh --abroad
+	XuanZhi
 fi
 self-menu
 }
