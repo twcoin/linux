@@ -548,7 +548,7 @@ else
 	sed -i "s|ip6tables -F|ip6tables=ip6tables -F|g" ./kejilion.sh
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" ./kejilion.sh
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
-	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
+	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
 	cp -r ./kejilion.sh /usr/local/bin/k
 	bash kejilion.sh
