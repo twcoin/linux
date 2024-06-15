@@ -788,14 +788,21 @@ backup_data_dir="/home"
 backup_certs_dir="/root"
 backup_dir="/root/shell"
 #创建对应目录web、docker、serts文件夹备份
-cd $backup_data_dir && tar czvf web_$(date +"%Y%m%d%H%M%S").tar.gz web
-cd $backup_data_dir && tar czvf docker_$(date +"%Y%m%d%H%M%S").tar.gz docker
-cd $backup_certs_dir && tar czvf certs_$(date +"%Y%m%d%H%M%S").tar.gz certs
-cd $backup_certs_dir && tar czvf .acme.sh$(date +"%Y%m%d%H%M%S").tar.gz .acme.sh
+cd $backup_data_dir && tar czvf web_$(date +"%Y%m%d%H%M%S").tar.gz web >/dev/null 2>&1
+cd $backup_data_dir && tar czvf docker_$(date +"%Y%m%d%H%M%S").tar.gz docker >/dev/null 2>&1
+cd $backup_certs_dir && tar czvf certs_$(date +"%Y%m%d%H%M%S").tar.gz certs >/dev/null 2>&1
+cd $backup_certs_dir && tar czvf .acme.sh$(date +"%Y%m%d%H%M%S").tar.gz .acme.sh >/dev/null 2>&1
 mv $backup_data_dir/*.gz $backup_dir
 mv $backup_certs_dir/*.gz $backup_dir
 mv $backup_certs_dir/.*.gz $backup_dir
-echo -e "${GREEN}>>> Create a tar archive of the bakup directory...${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
+echo -e "${GREEN}>>> Create a tar archive of the bakup directory...${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+#删除web、docker、serts多余备份
+cd $backup_dir && ls -t $backup_dir/web*.tar.gz | tail -n +4 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/certs*.tar.gz | tail -n +4 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/docker*.tar.gz | tail -n +4 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/.acme*.tar.gz | tail -n +4 | xargs -I {} rm {}
+echo -e "${GREEN}>>> Delete tar archive of old backup directory...${PLAIN}[${RED}Keep only 5 tar archives${PLAIN}]${PLAIN} [${RED}Finish${PLAIN}]${PLAIN}"
+
 self-menu
 }
 
