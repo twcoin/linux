@@ -215,7 +215,8 @@ acme_standalone(){
 	fi
 	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
-	cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
+	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #不占用80端口申请单域名证书(CF API申请)(无需解析)(不支持freenom域名)
@@ -241,7 +242,8 @@ acme_cfapiTLD(){
 	fi
 	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
-	cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
+	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #不占用80端口申请泛域名证书(CF API申请)(无需解析)(不支持freenom域名)
@@ -267,8 +269,9 @@ acme_cfapiNTLD(){
 		bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "*.${domain}" -d "${domain}" -k ec-256 --insecure
 	fi
 	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
-	bash ~/.acme.sh/acme.sh --install-cert -d "*.${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
-	cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
+	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
+	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #
@@ -323,8 +326,7 @@ revoke_cert() {
 		bash ~/.acme.sh/acme.sh --remove -d ${domain} --ecc
 		rm -rf ~/.acme.sh/${domain}_ecc
 		rm -f /root/certs/${domain}_cert.crt /root/certs/${domain}_private.key
-		rm -f /root/certs/${domain}_ccert.pem /root/certs/${domain}_key.pem
-		rm -f /root/certs/webbak/${domain}_ccert.pem /root/certs/webbak/${domain}_key.pem
+		rm -f /root/certs/${domain}_cert.pem /root/certs/${domain}_key.pem
 		green "撤销${domain}的域名证书成功"
 		back2menu
 	else
@@ -340,7 +342,9 @@ renew_cert() {
 	[[ -z $domain ]] && red "未输入域名, 无法执行操作!" && exit 1
 	if [[ -n $(bash ~/.acme.sh/acme.sh --list | grep $domain) ]]; then
 		bash ~/.acme.sh/acme.sh --renew -d ${domain} --force --ecc
-		cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
+		##bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
+		##bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+		##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 		checktls
 		back2menu
 	else
@@ -374,6 +378,10 @@ uninstall() {
 }
 #设置系统源
 1_Change_Mirrors() {
+echo ""
+echo ""
+echo ""
+echo ""
 sh_shell="/root/shell"
 cd $sh_shell && touch ChangeMirrors.sh
 sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
@@ -384,7 +392,6 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
-	sed -i "s|&& clear| |g" ./ChangeMirrors.sh
 	bash ChangeMirrors.sh
 	self-menu
 else
@@ -415,6 +422,10 @@ self-menu
 }
 #设置系统源[国外主机]
 2_ChangeMirrors_abroad() {
+echo ""
+echo ""
+echo ""
+echo ""
 sh_shell="/root/shell"
 cd $sh_shell && touch ChangeMirrors.sh
 sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
@@ -425,7 +436,6 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
-	sed -i "s|&& clear| |g" ./ChangeMirrors.sh
 	bash ChangeMirrors.sh --abroad
 	self-menu
 else
@@ -456,6 +466,10 @@ self-menu
 }
 #安装docker环境
 3_Docker_Installation() {
+echo ""
+echo ""
+echo ""
+echo ""
 sh_shell="/root/shell"
 cd $sh_shell && touch DockerInstallation.sh
 sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
@@ -466,7 +480,6 @@ sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | awk '{match($0, /20
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
-	sed -i "s|&& clear| |g" ./DockerInstallation.sh
 	bash DockerInstallation.sh
 	self-menu
 else
@@ -497,6 +510,10 @@ self-menu
 }
 #更新LDNMP建站脚本
 4_up_kejilion() {
+echo ""
+echo ""
+echo ""
+echo ""
 sh_shell="/root/shell"
 cd $sh_shell && touch kejilion.sh
 sh_v_new=$(curl -s https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
@@ -506,7 +523,7 @@ if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}你已经是最新版本！${YELLOW}version：$sh_v${PLAIN}"
 	cd $sh_shell
 	cp -r ./kejilion.sh /usr/local/bin/k
-	bash kejilion.sh
+	#bash kejilion.sh
 	self-menu
 else
 	echo "更新日志"
@@ -545,18 +562,23 @@ else
 	sed -i "s|iptables -P|##iptables -P|g" ./kejilion.sh
 	sed -i "s|iptables -F|##iptables -F|g" ./kejilion.sh
 	sed -i "s|ip6tables -P|##ip6tables -P|g" ./kejilion.sh
-	sed -i "s|ip6tables -F|ip6tables=ip6tables -F|g" ./kejilion.sh
+	sed -i "s|ip6tables -F|echo "pass this"|g" ./kejilion.sh
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" ./kejilion.sh
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
+	#sed -i "s|yuming.com_cert.pem|yuming.com_cert.crt|g" ./kejilion.sh  && sed -i "s|yuming.com_key.pem|yuming.com_private.key|g" ./kejilion.sh && sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf /home/web/conf.d/$yuming.conf
 	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
 	cp -r ./kejilion.sh /usr/local/bin/k
-	bash kejilion.sh
+	#bash kejilion.sh
 fi
 self-menu
 }
 #在 Debian Ubuntu 中安装v2raya
 5_install_v2raya() {
+echo ""
+echo ""
+echo ""
+echo ""
 wget -qO - https://apt.v2raya.org/key/public-key.asc | tee /etc/apt/keyrings/v2raya.asc
 echo -e "${GREEN}添加公钥完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 echo "deb [signed-by=/etc/apt/keyrings/v2raya.asc] https://apt.v2raya.org/ v2raya main" | tee /etc/apt/sources.list.d/v2raya.list
@@ -570,6 +592,10 @@ self-menu
 }
 #更新GEO文件
 6_up_geo_data() {
+echo ""
+echo ""
+echo ""
+echo ""
 mkdir -p /usr/share/xray /usr/share/v2ray
 #xray geo路径
 geodata_xray="/usr/share/xray"
@@ -619,6 +645,10 @@ self-menu
 }
 #自用 docker-compose.yml下载及certs文件夹设置
 8_docker_compose_and_certs() {
+echo ""
+echo ""
+echo ""
+echo ""
 link_app_certs=$(file /home/docker/certs | grep -o link)
 link_web_certs=$(file /home/web/certs | grep -o link)
 folder_certs=$(file /root/certs | grep -o link)
@@ -639,7 +669,7 @@ fi
 
 
 cd $shell_docker_compose && touch 3x-ui.yml
-sh_v_new=$(	 https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v_new=$(curl -s https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 #sh_v_new=$(curl -s https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
@@ -673,6 +703,10 @@ self-menu
 }
 #解决 Debian Ubuntu 系统中tab补全问题
 9_install_bash-completion() {
+echo ""
+echo ""
+echo ""
+echo ""
 apt update
 apt install bash-completion
 echo -e "${GREEN}软件安装完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
@@ -683,6 +717,10 @@ self-menu
 }
 #在 openwrt 中安装v2raya
 10_ainstall_v2raya_openwrt() {
+echo ""
+echo ""
+echo ""
+echo ""
 wget https://downloads.sourceforge.net/project/v2raya/openwrt/v2raya.pub -O /etc/opkg/keys/94cc2a834fb0aa03
 echo -e "${GREEN}Add v2rayA usign key...${PLAIN}"
 echo "src/gz v2raya https://downloads.sourceforge.net/project/v2raya/openwrt/$(. /etc/openwrt_release && echo "$DISTRIB_ARCH")" | tee -a "/etc/opkg/customfeeds.conf"
@@ -697,6 +735,10 @@ self-menu
 }
 #更新脚本
 12_update_acme_sh() {
+echo ""
+echo ""
+echo ""
+echo ""
 cd ~ && touch acme.sh
 ln -sf ~/acme.sh /usr/local/bin/zs
 
@@ -799,14 +841,14 @@ self-menu() {
 	echo -e " ${GREEN}3.${PLAIN} 安装docker环境${PLAIN}"
 	echo -e " ${GREEN}4.${PLAIN} ${RED}更新LDNMP建站脚本${PLAIN}作者${PLAIN}: [科技lion]${PLAIN}"
 	echo " -------------"
-	echo -e " ${GREEN}5.${PLAIN} 在 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 中安装v2raya${PLAIN}"
+	echo -e " ${GREEN}5.${PLAIN} 在 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 中安装 v2raya${PLAIN}"
 	echo -e " ${GREEN}6.${PLAIN} 更新GEO文件${PLAIN}"
 	echo " -------------"
-	echo -e " ${GREEN}8.${PLAIN} 自用 ${RED}docker-compose.yml${PLAIN}下载及${RED}certs${PLAIN}文件夹设置${PLAIN}"
-	echo -e " ${GREEN}9.${PLAIN} 解决 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 系统中tab补全问题${PLAIN}"
+	echo -e " ${GREEN}8.${PLAIN} 自用 ${RED}docker compose ${PLAIN}配置文件下载及${RED}certs${PLAIN}文件夹设置${PLAIN}"
+	echo -e " ${GREEN}9.${PLAIN} 解决 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 命令补全问题${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}10.${PLAIN}在 ${RED}openwrt${PLAIN} 中安装v2raya${PLAIN}"
-	echo -e " ${GREEN}11.${PLAIN}Acme证书一键申请脚本${GREEN} 作者${PLAIN}: 爱分享的小企鹅${PLAIN}"
+	echo -e " ${GREEN}11.${PLAIN}Acme证书一键申请脚本${GREEN} 作者${PLAIN}: [爱分享的小企鹅]${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}12.${PLAIN}更新脚本${PLAIN}"
 	echo " -------------"
