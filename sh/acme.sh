@@ -851,10 +851,12 @@ self-menu() {
 	echo -e " ${GREEN}11.${PLAIN}Acme证书一键申请脚本${GREEN} 作者${PLAIN}: [爱分享的小企鹅]${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}12.${PLAIN}更新脚本${PLAIN}"
+	echo -e " ${GREEN}13.${PLAIN}备份数据${PLAIN}${RED} 谨慎使用${PLAIN}"
+	echo -e " ${GREEN}14.${PLAIN}还原数据${PLAIN}${RED} 谨慎使用${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}0.${PLAIN} 退出脚本${PLAIN}"
 	echo ""
-	read -rp "请输入选项 [0-12]: " NumberInput
+	read -rp "请输入选项 [0-14]: " NumberInput
 	case "$NumberInput" in
 		1) 1_Change_Mirrors ;;
 		2) 2_ChangeMirrors_abroad ;;
@@ -867,6 +869,8 @@ self-menu() {
 		10) 10_ainstall_v2raya_openwrt ;;
 		11) acme-menu ;;
 		12) 12_update_acme_sh ;;
+		13) 13_bakup_from_local ;;
+		14) 14_reload_from_local ;;
 		*) exit 1 ;;
 	esac
 }
