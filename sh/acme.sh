@@ -213,10 +213,8 @@ acme_standalone(){
 			exit 1
 		fi
 	fi
-	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
-	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #不占用80端口申请单域名证书(CF API申请)(无需解析)(不支持freenom域名)
@@ -240,10 +238,8 @@ acme_cfapiTLD(){
 	else
 		bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -k ec-256 --insecure
 	fi
-	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
-	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #不占用80端口申请泛域名证书(CF API申请)(无需解析)(不支持freenom域名)
@@ -268,10 +264,8 @@ acme_cfapiNTLD(){
 	else
 		bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "*.${domain}" -d "${domain}" -k ec-256 --insecure
 	fi
-	##mkdir -p /root/bakcerts /root/certs/web /root/certs/webbak  # 创建所需文件夹
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
 	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
-	##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #
@@ -344,7 +338,6 @@ renew_cert() {
 		bash ~/.acme.sh/acme.sh --renew -d ${domain} --force --ecc
 		##bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
 		##bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
-		##cp -r /root/certs/${domain}_cert.crt /root/certs/${domain}_cert.pem && ##cp -r /root/certs/${domain}_private.key /root/certs/${domain}_key.pem
 		checktls
 		back2menu
 	else
@@ -434,31 +427,10 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
 
-XuanZhi() {
-	echo -e " ${GREEN}1.${PLAIN} 设置官方软件源${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
-	echo -e " ${GREEN}2.${PLAIN} 设置海外软件源${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
-	case "$NumberInput" in
-		1) use_official_source ;;
-		2) use_abroad ;;
-		*) 2_ChangeMirrors_abroad ;;
-	esac
-}
-
-#官方软件源
-use_official_source() {
-bash ChangeMirrors.sh --use-official-source
-self-menu
-}
-#海外软件源
-use_abroad() {
-bash ChangeMirrors.sh --abroad
-self-menu
-}
-
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
-	XuanZhi
+	XuanZhi_source
 else
 	echo "发现新版本！"
 	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
@@ -478,10 +450,10 @@ else
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
-	curl -sS -O https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
-	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
+	curl -sS -O https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh && chmod +x ChangeMirrors.sh
+	sed -i "s|&& clear| |g" ChangeMirrors.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
-	XuanZhi
+	XuanZhi_source
 fi
 self-menu
 }
@@ -577,9 +549,9 @@ else
 	sed -i "s|docker stop nginx >|##docker stop nginx >|g" ./kejilion.sh
 	sed -i "s|docker start nginx >|##docker start nginx >|g" ./kejilion.sh
 	sed -i "s|certbot certonly|##certbot certonly|g" ./kejilion.sh
-	sed -i "s|fullchain.pem|cert.crt|g" ./kejilion.sh
-	sed -i "s|privkey.pem|private.key|g" ./kejilion.sh
-	sed -i "s|cp /etc/letsencrypt/live|cp -r /home/certs|g" ./kejilion.sh
+	sed -i "s|fullchain.pem|##fullchain.pem|g" ./kejilion.sh
+	sed -i "s|privkey.pem|##privkey.pem|g" ./kejilion.sh
+	sed -i "s|cp /etc/letsencrypt/live|##cp /etc/letsencrypt/live|g" ./kejilion.sh
 	sed -i "s|iptables -P|##iptables -P|g" ./kejilion.sh
 	sed -i "s|iptables -F|##iptables -F|g" ./kejilion.sh
 	sed -i "s|ip6tables -P|##ip6tables -P|g" ./kejilion.sh
@@ -587,7 +559,7 @@ else
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" ./kejilion.sh
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
 	#sed -i "s|yuming.com_cert.pem|yuming.com_cert.crt|g" ./kejilion.sh  && sed -i "s|yuming.com_key.pem|yuming.com_private.key|g" ./kejilion.sh && sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf /home/web/conf.d/$yuming.conf
-	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
+	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} version：$sh_v_new${PLAIN}"
 	cp -r kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
@@ -971,12 +943,26 @@ self-menu() {
 		*) exit 1 ;;
 	esac
 }
-#
-clear
-self-menu
+XuanZhi_source() {
+	echo -e " ${GREEN}1.${PLAIN} 设置${RED}官方${PLAIN}软件源${PLAIN}"
+	echo -e " ${GREEN}2.${PLAIN} 设置${RED}海外${PLAIN}软件源${PLAIN}"
+	read -rp "请输入选项 [1-2]: " NumberInput
+	case "$NumberInput" in
+		1) use_official_source ;;
+		2) use_abroad ;;
+		*) 2_ChangeMirrors_abroad ;;
+	esac
+}
 
-#备份数据
-13_() {
-
+#官方软件源
+use_official_source() {
+bash ChangeMirrors.sh --use-official-source
 self-menu
 }
+#海外软件源
+use_abroad() {
+bash ChangeMirrors.sh --abroad
+self-menu
+}
+clear
+self-menu
