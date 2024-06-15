@@ -428,9 +428,9 @@ echo ""
 echo ""
 sh_shell="/root/shell"
 cd $sh_shell && touch ChangeMirrors.sh
-sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
+sh_v_new=$(curl -s https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
 sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); print substr($0, RSTART)}' | head -n 1)
-#sh_v_new=$(curl -s https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
+#sh_v_new=$(curl -s https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
@@ -457,7 +457,7 @@ else
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
-	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
+	curl -sS -O https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
 	bash ChangeMirrors.sh --abroad
