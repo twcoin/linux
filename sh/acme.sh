@@ -3,8 +3,8 @@
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
-#cd ~ && touch acme.sh
-#ln -sf ~/acme.sh /usr/local/bin/zs
+cd ~ && touch acme.sh && chmod +x acme.sh
+ln -sf ~/acme.sh /usr/local/bin/zs
 
 #红色
 RED="\033[31m"
