@@ -783,7 +783,7 @@ self-menu
 }
 #备份数据
 13_backup_from_local() {
-echo -e "${GREEN}>>> Create tar archive of the bakup directory...${PLAIN}[${YELLOW}Please wait ...${PLAIN}]${PLAIN}"
+echo -e "${GREEN}>>> Create tar archive of the backup directory ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
 backup_data_dir="/home"
 backup_certs_dir="/root"
 backup_dir="/root/shell"
@@ -795,13 +795,13 @@ cd $backup_certs_dir && tar czvf .acme.sh$(date +"%Y%m%d%H%M%S").tar.gz .acme.sh
 mv $backup_data_dir/*.gz $backup_dir
 mv $backup_certs_dir/*.gz $backup_dir
 mv $backup_certs_dir/.*.gz $backup_dir
-echo -e "${GREEN}>>> Create tar archive of the bakup directory...${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo -e "${GREEN}>>> Create tar archive of the backup directory ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
 #删除web、docker、serts多余备份
 #cd $backup_dir && ls -t $backup_dir/web*.tar.gz | tail -n +4 | xargs -I {} rm {}
 #cd $backup_dir && ls -t $backup_dir/certs*.tar.gz | tail -n +4 | xargs -I {} rm {}
 #cd $backup_dir && ls -t $backup_dir/docker*.tar.gz | tail -n +4 | xargs -I {} rm {}
 #cd $backup_dir && ls -t $backup_dir/.acme*.tar.gz | tail -n +4 | xargs -I {} rm {}
-echo -e "${GREEN}>>> Delete tar archive of old backup directory...${PLAIN}[${RED}Keep only 5 tar archives${PLAIN}]${PLAIN} [${RED}Finish${PLAIN}]${PLAIN}"
+echo -e "${GREEN}>>> Delete tar archive of old backup directory ... ${PLAIN}[${RED}Keep only 5 tar archives${PLAIN}]${PLAIN} [${RED}Finish${PLAIN}]${PLAIN}"
 
 self-menu
 }
