@@ -534,8 +534,8 @@ else
 	echo ""
 	echo ""
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW}version：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE}version：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
@@ -567,7 +567,7 @@ else
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
 	#sed -i "s|yuming.com_cert.pem|yuming.com_cert.crt|g" ./kejilion.sh  && sed -i "s|yuming.com_key.pem|yuming.com_private.key|g" ./kejilion.sh && sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf /home/web/conf.d/$yuming.conf
 	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}version：$sh_v_new${PLAIN}"
 	cp -r ./kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
 fi
