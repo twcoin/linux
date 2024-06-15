@@ -783,11 +783,17 @@ self-menu
 }
 #备份数据
 13_backup_from_local() {
-echo -e "${GREEN}>>> Create tar archive of the backup directory ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
 backup_data_dir="/home"
 backup_certs_dir="/root"
 backup_dir="/root/shell"
+compose_container_dir="/home/web"
+echo ""
+echo -e "${GREEN}>>> Stop the container ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
+docker compose -f $compose_container_dir/docker-compose.yml stop
+echo -e "${GREEN}>>> Stop the container ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo ""
 #创建对应目录web、docker、serts文件夹备份
+echo -e "${GREEN}>>> Create tar archive of the backup directory ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
 cd $backup_data_dir && tar czvf web_$(date +"%Y%m%d%H%M%S").tar.gz web >/dev/null 2>&1
 cd $backup_data_dir && tar czvf docker_$(date +"%Y%m%d%H%M%S").tar.gz docker >/dev/null 2>&1
 cd $backup_certs_dir && tar czvf certs_$(date +"%Y%m%d%H%M%S").tar.gz certs >/dev/null 2>&1
@@ -796,13 +802,58 @@ mv $backup_data_dir/*.gz $backup_dir
 mv $backup_certs_dir/*.gz $backup_dir
 mv $backup_certs_dir/.*.gz $backup_dir
 echo -e "${GREEN}>>> Create tar archive of the backup directory ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo ""
+echo -e "${GREEN}>>> Start the container ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
+docker compose -f $compose_container_dir/docker-compose.yml start
+echo -e "${GREEN}>>> Start the container ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo ""
 #删除web、docker、serts多余备份
-#cd $backup_dir && ls -t $backup_dir/web*.tar.gz | tail -n +4 | xargs -I {} rm {}
-#cd $backup_dir && ls -t $backup_dir/certs*.tar.gz | tail -n +4 | xargs -I {} rm {}
-#cd $backup_dir && ls -t $backup_dir/docker*.tar.gz | tail -n +4 | xargs -I {} rm {}
-#cd $backup_dir && ls -t $backup_dir/.acme*.tar.gz | tail -n +4 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/web*.tar.gz | tail -n +6 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/certs*.tar.gz | tail -n +6 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/docker*.tar.gz | tail -n +6 | xargs -I {} rm {}
+cd $backup_dir && ls -t $backup_dir/.acme*.tar.gz | tail -n +6 | xargs -I {} rm {}
 echo -e "${GREEN}>>> Delete tar archive of old backup directory ... ${PLAIN}[${RED}Keep only 5 tar archives${PLAIN}]${PLAIN} [${RED}Finish${PLAIN}]${PLAIN}"
+self-menu
+}
+#还原数据
+14_reload_from_local() {
+backup_data_dir="/home"
+backup_certs_dir="/root"
+backup_dir="/root/shell"
+compose_container_dir="/home/web"
+echo ""
+echo -e "${GREEN}>>> Stop the container ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
+docker compose -f $compose_container_dir/docker-compose.yml stop
+echo -e "${GREEN}>>> Stop the container ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo ""
+echo -e "${GREEN}>>> Reload tar archive of the backup directory ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
+#提取文件及文件名
+#file_cert_gz=$(ls -t $backup_dir/*.tar.gz | grep "certs" | awk '{match($0, /cert/); print substr($0, RSTART)}' | head -n 1)
+#file_cert_sh_gz=$(ls -t $backup_dir/.*.tar.gz | grep "acme" | awk '{match($0, /.acme/); print substr($0, RSTART)}' | head -n 1)
+#file_web_gz=$(ls -t $backup_dir/*.tar.gz  | grep "web" | awk '{match($0, /web/); print substr($0, RSTART)}' | head -n 1)
+#file_docker_gz=$(ls -t $backup_dir/*.tar.gz | grep "docker" | awk '{match($0, /docker/); print substr($0, RSTART)}' | head -n 1)
+#提取文件路径与文件及文件名
+file_cert_gz=$(ls -t $backup_dir/*.tar.gz | grep "certs" | head -n 1)
+file_cert_sh_gz=$(ls -t $backup_dir/.*.tar.gz | grep "acme" | head -n 1)
+file_web_gz=$(ls -t $backup_dir/*.tar.gz  | grep "web" | head -n 1)
+file_docker_gz=$(ls -t $backup_dir/*.tar.gz | grep "docker" | head -n 1)
 
+cp $file_cert_gz $backup_certs_dir
+cp $file_cert_sh_gz $backup_certs_dir
+cp $file_web_gz $backup_data_dir
+cp $file_docker_gz $backup_data_dir
+
+cd $backup_certs_dir && ls *.tar.gz | grep "certs" | xargs -I {} tar -vxzf {}
+cd $backup_certs_dir && ls .*.tar.gz | grep "acme" | xargs -I {} tar -vxzf {}
+cd $backup_data_dir && ls *.tar.gz | grep "web" | xargs -I {} tar -vxzf {}
+cd $backup_data_dir && ls *.tar.gz | grep "docker" | xargs -I {} tar -vxzf {}
+cd $backup_data_dir && rm -fr *.tar.gz
+cd $backup_certs_dir && rm -fr *.tar.gz && rm -fr .*.tar.gz
+echo -e "${GREEN}>>> Reload tar archive of the backup directory ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
+echo ""
+echo -e "${GREEN}>>> Start the container ... ${PLAIN}[${YELLOW}Please wait ... ${PLAIN}]${PLAIN}"
+docker compose -f $compose_container_dir/docker-compose.yml start
+echo -e "${GREEN}>>> Start the container ... ${PLAIN}[${RED}Finish${PLAIN}]${PLAIN}"
 self-menu
 }
 
@@ -904,7 +955,7 @@ clear
 self-menu
 
 #备份数据
-#13_bakup_from_local() {
+13_() {
 
 self-menu
 }
