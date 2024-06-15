@@ -390,14 +390,14 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
 	bash ChangeMirrors.sh
 	self-menu
 else
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} 更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
@@ -415,7 +415,7 @@ else
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
 	bash ChangeMirrors.sh
 fi
 self-menu
@@ -434,14 +434,14 @@ sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | awk '{match($0, /20/); p
 #sh_v=$(cat $sh_shell/ChangeMirrors.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
 	bash ChangeMirrors.sh --abroad
 	self-menu
 else
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} 更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
@@ -459,7 +459,7 @@ else
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/SuperManito/LinuxMirrors/main/ChangeMirrors.sh && chmod +x ./ChangeMirrors.sh
 	sed -i "s|&& clear| |g" ./ChangeMirrors.sh	
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
 	bash ChangeMirrors.sh --abroad
 fi
 self-menu
@@ -478,14 +478,14 @@ sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | awk '{match($0, /20
 #sh_v=$(cat $sh_shell/DockerInstallation.sh | grep Modified | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_shell
 	bash DockerInstallation.sh
 	self-menu
 else
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} 更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
@@ -503,7 +503,7 @@ else
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh && chmod +x ./DockerInstallation.sh
 	sed -i "s|&& clear| |g" ./DockerInstallation.sh	
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
 	bash DockerInstallation.sh
 fi
 self-menu
@@ -520,7 +520,7 @@ sh_v_new=$(curl -s https://raw.githubusercontent.com/kejilion/sh/main/kejilion.s
 sh_v=$(cat $sh_shell/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}version：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} version：$sh_v${PLAIN}"
 	cd $sh_shell
 	cp -r ./kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
@@ -534,8 +534,8 @@ else
 	echo ""
 	echo ""
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}version：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}version：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} version：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} version：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_shell
 	# 设置源文件路径和目标目录
@@ -567,7 +567,7 @@ else
 	sed -i "s|web/mysql web/certs|web/mysql|g" ./kejilion.sh
 	#sed -i "s|yuming.com_cert.pem|yuming.com_cert.crt|g" ./kejilion.sh  && sed -i "s|yuming.com_key.pem|yuming.com_private.key|g" ./kejilion.sh && sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf /home/web/conf.d/$yuming.conf
 	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}version：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} version：$sh_v_new${PLAIN}"
 	cp -r ./kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
 fi
@@ -675,12 +675,12 @@ sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | awk '{match($0, /2
 #sh_v=$(cat $shell_docker_compose/3x-ui.yml | grep "#UPDATE" | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	self-menu
 else
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} 更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $shell_docker_compose
 	# 设置源文件路径和目标目录
@@ -697,7 +697,7 @@ else
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/twcoin/linux/main/3x-ui/3x-ui.yml && chmod +x ./3x-ui.yml
-	echo -e "${GREEN}已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
 fi
 self-menu
 }
@@ -754,13 +754,13 @@ sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | awk '{match($0, /20/); print s
 #sh_v=$(cat $sh_dir/acme.sh | grep "Update-Time" | sed 's/.*\(20.*\)/\1/')
 
 if [ "$sh_v" = "$sh_v_new" ]; then
-	echo -e "${GREEN}你已经是最新版本！${YELLOW}更新日期：$sh_v${PLAIN}"
+	echo -e "${GREEN}无需更新脚本${YELLOW} 更新日期：$sh_v${PLAIN}"
 	cd $sh_dir
 	self-menu
 else
 	echo "发现新版本！"
-	echo -e "当前版本${YELLOW}更新日期：$sh_v${PLAIN}"
-	echo -e "最新版本${BLUE}更新日期：$sh_v_new${PLAIN}"
+	echo -e "当前版本${YELLOW} 更新日期：$sh_v${PLAIN}"
+	echo -e "最新版本${BLUE} 更新日期：$sh_v_new${PLAIN}"
 	echo "------------------------"
 	cd $sh_dir
 	# 设置源文件路径和目标目录
@@ -777,7 +777,7 @@ else
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -L -O $githubusercontent_URL && chmod +x acme.sh
-	echo -e "${GREEN}脚本已更新到最新版本${YELLOW}$更新日期：$sh_v_new${PLAIN}"
+	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} 更新日期：$sh_v_new${PLAIN}"
 fi
 self-menu
 }
