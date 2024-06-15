@@ -1,5 +1,5 @@
 #!/bin/bash
-#Update-Time：20240614
+#Update-Time：20240615
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
@@ -515,14 +515,14 @@ echo ""
 echo ""
 echo ""
 sh_shell="/root/shell"
-cd $sh_shell && touch kejilion.sh
+cd $sh_shell && touch kejilion.sh && chmod +x kejilion.sh
 sh_v_new=$(curl -s https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 sh_v=$(cat $sh_shell/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}无需更新脚本${YELLOW} version：$sh_v${PLAIN}"
 	cd $sh_shell
-	cp -r ./kejilion.sh /usr/local/bin/k
+	cp -r kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
 	self-menu
 else
@@ -551,7 +551,7 @@ else
 	# 备份文件并指定新的文件名
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
-	curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x ./kejilion.sh
+	curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh
 	sed -i "s|clear|###clear|g" ./kejilion.sh
 	sed -i "s|docker stop nginx >|##docker stop nginx >|g" ./kejilion.sh
 	sed -i "s|docker start nginx >|##docker start nginx >|g" ./kejilion.sh
@@ -568,7 +568,7 @@ else
 	#sed -i "s|yuming.com_cert.pem|yuming.com_cert.crt|g" ./kejilion.sh  && sed -i "s|yuming.com_key.pem|yuming.com_private.key|g" ./kejilion.sh && sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf /home/web/conf.d/$yuming.conf
 	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" ./kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} version：$sh_v_new${PLAIN}"
-	cp -r ./kejilion.sh /usr/local/bin/k
+	cp -r kejilion.sh /usr/local/bin/k
 	#bash kejilion.sh
 fi
 self-menu
