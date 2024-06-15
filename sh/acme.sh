@@ -906,7 +906,7 @@ self-menu() {
 	echo "#################################################"
 	echo ""
 	echo -e " ${GREEN}1.${PLAIN} 设置系统软件源${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
-	echo -e " ${GREEN}2.${PLAIN} 设置系统软件源[国外主机]${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
+	echo -e " ${GREEN}2.${PLAIN} 设置系统软件源[海外]${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
 	echo -e " ${GREEN}3.${PLAIN} 安装docker环境${PLAIN}${GREEN} 作者${PLAIN}: [SuperManito]${PLAIN}"
 	echo -e " ${GREEN}4.${PLAIN} ${RED}更新LDNMP建站脚本${GREEN} 作者${PLAIN}: [科技lion]${PLAIN}"
 	echo " -------------"
