@@ -727,7 +727,7 @@ echo "src/gz v2raya https://downloads.sourceforge.net/project/v2raya/openwrt/$(.
 echo -e "${GREEN}Import v2rayA feed...${PLAIN}"
 opkg install v2raya
 opkg install kmod-nft-tproxy
-#建议使用xray内核，v2ray内核使用tproxy有问题
+#建议使用xray内核，v2ray内核使用tproxy有小问题
 opkg install xray-core
 opkg install luci-app-v2raya
 /etc/init.d/v2raya start
@@ -781,6 +781,24 @@ else
 fi
 self-menu
 }
+#备份数据
+13_backup_from_local() {
+echo -e "${GREEN}>>> Create a tar archive of the bakup directory...${PLAIN}[${YELLOW}Please wait${PLAIN}]${PLAIN}"
+backup_data_dir="/home"
+backup_certs_dir="/root"
+backup_dir="/root/shell"
+#创建对应目录web、docker、serts文件夹备份
+cd $backup_data_dir && tar czvf web_$(date +"%Y%m%d%H%M%S").tar.gz web
+cd $backup_data_dir && tar czvf docker_$(date +"%Y%m%d%H%M%S").tar.gz docker
+cd $backup_certs_dir && tar czvf certs_$(date +"%Y%m%d%H%M%S").tar.gz certs
+cd $backup_certs_dir && tar czvf .acme.sh$(date +"%Y%m%d%H%M%S").tar.gz .acme.sh
+mv $backup_data_dir/*.gz $backup_dir
+mv $backup_certs_dir/*.gz $backup_dir
+mv $backup_certs_dir/.*.gz $backup_dir
+echo -e "${GREEN}>>> Create a tar archive of the bakup directory...${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
+self-menu
+}
+
 #acme脚本菜单
 acme-menu() {
 	echo ""
@@ -869,7 +887,7 @@ self-menu() {
 		10) 10_ainstall_v2raya_openwrt ;;
 		11) acme-menu ;;
 		12) 12_update_acme_sh ;;
-		13) 13_bakup_from_local ;;
+		13) 13_backup_from_local ;;
 		14) 14_reload_from_local ;;
 		*) exit 1 ;;
 	esac
@@ -878,8 +896,8 @@ self-menu() {
 clear
 self-menu
 
-#xxxxxx
-xx_test() {
+#备份数据
+#13_bakup_from_local() {
 
 self-menu
 }
