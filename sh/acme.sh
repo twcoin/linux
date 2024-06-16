@@ -970,5 +970,5 @@ use_abroad() {
 bash ChangeMirrors.sh --abroad
 self-menu
 }
-clear
-self-menu
+#clear
+8_docker_compose_and_certs
