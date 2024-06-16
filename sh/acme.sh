@@ -545,19 +545,25 @@ else
 	cp "${source_file}" "${destination_file}"
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh
+	echo ""
 	sed -i "s|clear|###clear|g" kejilion.sh
-	sed -i "s|docker stop nginx >|##docker stop nginx >|g" kejilion.sh
+	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" kejilion.sh
+	sed -i "s|web/mysql web/certs|web/mysql|g" kejilion.sh
+	echo ""
+	sed -i "s|base64 16|base64 18|g" kejilion.sh
+	sed -i "s|base64 8|base64 9|g" kejilion.sh
+	echo ""
 	sed -i "s|docker start nginx >|##docker start nginx >|g" kejilion.sh
 	sed -i "s|certbot certonly|##certbot certonly|g" kejilion.sh
-	sed -i "s|fullchain.pem|##fullchain.pem|g" kejilion.sh
-	sed -i "s|privkey.pem|##privkey.pem|g" kejilion.sh
+	#sed -i "s|fullchain.pem|##fullchain.pem|g" kejilion.sh
+	#sed -i "s|privkey.pem|##privkey.pem|g" kejilion.sh
 	sed -i "s|cp /etc/letsencrypt/live|##cp /etc/letsencrypt/live|g" kejilion.sh
+	echo ""
 	sed -i "s|iptables -P|##iptables -P|g" kejilion.sh
 	sed -i "s|iptables -F|##iptables -F|g" kejilion.sh
 	sed -i "s|ip6tables -P|##ip6tables -P|g" kejilion.sh
 	sed -i "s|ip6tables -F|echo "pass-this"|g" kejilion.sh
-	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" kejilion.sh
-	sed -i "s|web/mysql web/certs|web/mysql|g" kejilion.sh
+	echo ""
 	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} version：$sh_v_new${PLAIN}"
 	cp -r kejilion.sh /usr/local/bin/k
