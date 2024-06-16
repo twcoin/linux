@@ -553,6 +553,7 @@ else
 	sed -i "s|base64 16|base64 18|g" kejilion.sh
 	sed -i "s|base64 8|base64 9|g" kejilion.sh
 	echo ""
+	sed -i "s|docker stop nginx >|##docker stop nginx >|g" kejilion.sh
 	sed -i "s|docker start nginx >|##docker start nginx >|g" kejilion.sh
 	sed -i "s|certbot certonly|##certbot certonly|g" kejilion.sh
 	#sed -i "s|fullchain.pem|##fullchain.pem|g" kejilion.sh
