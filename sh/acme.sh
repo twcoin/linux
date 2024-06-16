@@ -780,7 +780,7 @@ fi
 self-menu
 }
 #备份数据
-13_backup_from_local() {
+13_backup_to_local() {
 backup_data_dir="/home"
 backup_certs_dir="/root"
 backup_dir="/root/shell"
@@ -943,7 +943,7 @@ self-menu() {
 		10) 10_ainstall_v2raya_openwrt ;;
 		11) acme-menu ;;
 		12) 12_update_acme_sh ;;
-		13) 13_backup_from_local ;;
+		13) 13_backup_to_local ;;
 		14) 14_reload_from_local ;;
 		*) exit 1 ;;
 	esac
