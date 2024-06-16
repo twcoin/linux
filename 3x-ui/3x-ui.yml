@@ -1,4 +1,4 @@
-#UPDATE:2024-06-10
+#UPDATE:2024-06-15
 services: 
   3xui:
   ##docker exec 3xui /app/x-ui setting -show
@@ -16,9 +16,8 @@ services:
     #expose: 
       #- "3306"
     volumes:
-      - ./3xui-DB:/etc/x-ui
+      - ./db_3xui:/etc/x-ui
       - ./certs:/root/cert
-      #- ./certs:/root/cert
       #- $PWD/dbxui:/etc/x-ui
       #- $PWD/certs:/root/cert
     environment:
