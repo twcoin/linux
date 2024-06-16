@@ -515,7 +515,8 @@ sh_v=$(cat $sh_shell/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}无需更新${YELLOW} version：$sh_v${PLAIN}"
 	cd $sh_shell
-	cp -r kejilion.sh /usr/local/bin/k
+	#chmod +x kejilion.sh
+	ln -sf ~/shell/kejilion.sh /usr/local/bin/k
 	bash kejilion.sh
 	self-menu
 else
@@ -546,6 +547,8 @@ else
 	echo -e "旧版本文件备份完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 	curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh
 	echo ""
+	sed -i "s|nginx_status()|nginx__status()|g" kejilion.sh
+	sed -i "s|nginx_status|##nginx_status|g" kejilion.sh
 	sed -i "s|clear|###clear|g" kejilion.sh
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" kejilion.sh
 	sed -i "s|web/mysql web/certs|web/mysql|g" kejilion.sh
@@ -567,7 +570,7 @@ else
 	echo ""
 	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" kejilion.sh
 	echo -e "${GREEN}已经更新${YELLOW} version：$sh_v_new${PLAIN}"
-	cp -r kejilion.sh /usr/local/bin/k
+	ln -sf ~/shell/kejilion.sh /usr/local/bin/k
 	bash kejilion.sh
 fi
 self-menu
