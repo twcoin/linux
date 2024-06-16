@@ -516,7 +516,7 @@ if [ "$sh_v" = "$sh_v_new" ]; then
 	echo -e "${GREEN}无需更新脚本${YELLOW} version：$sh_v${PLAIN}"
 	cd $sh_shell
 	cp -r kejilion.sh /usr/local/bin/k
-	#bash kejilion.sh
+	bash kejilion.sh
 	self-menu
 else
 	echo "更新日志"
@@ -568,7 +568,7 @@ else
 	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" kejilion.sh
 	echo -e "${GREEN}脚本已更新到最新版本${YELLOW} version：$sh_v_new${PLAIN}"
 	cp -r kejilion.sh /usr/local/bin/k
-	#bash kejilion.sh
+	bash kejilion.sh
 fi
 self-menu
 }
