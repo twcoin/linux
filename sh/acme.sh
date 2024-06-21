@@ -553,6 +553,8 @@ else
 	sed -i "s|install_ssltls|##install_ssltls|g" kejilion.sh 
 	sed -i "s|iptables_open()|iptables__open()|g" kejilion.sh
 	sed -i "s|iptables_open|##iptables_open|g" kejilion.sh
+	sed -i "s|install_certbot()|install__certbot()|g" kejilion.sh
+	sed -i "s|install_certbot|##install_certbot|g" kejilion.sh
 	echo ""
 	sed -i "s|clear|###clear|g" kejilion.sh
 	sed -i "s|rm /home/web/certs|##rm /home/web/certs|g" kejilion.sh
