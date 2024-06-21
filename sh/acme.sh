@@ -708,6 +708,9 @@ apt update
 apt install bash-completion
 echo -e "${GREEN}软件安装完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 printf "if [ -f /etc/bash_completion ]; then\n. /etc/bash_completion\nfi\n" >> ~/.bashrc
+sleep 1
+source ~/.bashrc
+sleep 1
 source ~/.bashrc
 echo -e "${GREEN}设置完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 self-menu
