@@ -563,7 +563,7 @@ else
 	sed -i "s|base64 16|base64 18|g" kejilion.sh
 	sed -i "s|base64 8|base64 9|g" kejilion.sh
 	echo ""
-	#sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" kejilion.sh
+	sed -i "s|kejilion/docker/main/LNMP-docker-compose-10.yml|twcoin/linux/main/LNMP-docker-compose-10.yml|g" kejilion.sh
 	echo -e "${GREEN}已经更新${YELLOW} version：$sh_v_new${PLAIN}"
 	ln -sf ~/shell/kejilion.sh /usr/local/bin/k
 	bash kejilion.sh
