@@ -640,6 +640,59 @@ du -sh $geodata_xray/*
 echo -e "${GREEN}geo文件更新完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 self-menu
 }
+
+7_1_install_certbot() {
+
+    if command -v yum &>/dev/null; then
+        install epel-release certbot
+    else
+        install certbot
+    fi
+
+    # 切换到一个一致的目录
+    cd ~/shell || exit
+
+    # 下载并使脚本可执行
+    curl -O https://raw.githubusercontent.com/kejilion/sh/main/auto_cert_renewal.sh
+    chmod +x auto_cert_renewal.sh
+
+    # 设置定时任务字符串
+    cron_job="0 0 * * * ~/shell/auto_cert_renewal.sh"
+
+    # 检查是否存在相同的定时任务
+    existing_cron=$(crontab -l 2>/dev/null | grep -F "$cron_job")
+
+    # 如果不存在，则添加定时任务
+    if [ -z "$existing_cron" ]; then
+        (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
+        echo "续签任务已添加"
+    else
+        echo "续签任务已存在，无需添加"
+    fi
+self-menu
+}
+
+7_install_ssltls() {
+      docker stop nginx > /dev/null 2>&1
+      cd ~
+
+      certbot_version=$(certbot --version 2>&1 | grep -oP "\d+\.\d+\.\d+")
+
+      version_ge() {
+          [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" != "$1" ]
+      }
+
+      if version_ge "$certbot_version" "1.10.0"; then
+          certbot certonly --standalone -d $yuming --email your@email.com --agree-tos --no-eff-email --force-renewal --key-type ecdsa
+      else
+          certbot certonly --standalone -d $yuming --email your@email.com --agree-tos --no-eff-email --force-renewal
+      fi
+
+      cp /etc/letsencrypt/live/$yuming/fullchain.pem /home/web/certs/${yuming}_cert.pem
+      cp /etc/letsencrypt/live/$yuming/privkey.pem /home/web/certs/${yuming}_key.pem
+      docker start nginx > /dev/null 2>&1
+self-menu
+}
 #自用 docker-compose.yml下载及certs文件夹设置
 8_docker_compose_and_certs() {
 echo ""
@@ -919,6 +972,7 @@ self-menu() {
 	echo " -------------"
 	echo -e " ${GREEN}5.${PLAIN} 在 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 中安装 v2raya${PLAIN}"
 	echo -e " ${GREEN}6.${PLAIN} 更新GEO文件${PLAIN}"
+	echo -e " ${GREEN}7.${PLAIN} 证书一键申${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}8.${PLAIN} 自用 ${RED}docker compose ${PLAIN}配置文件下载及${RED}certs${PLAIN}文件夹设置${PLAIN}"
 	echo -e " ${GREEN}9.${PLAIN} 解决 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 命令补全问题${PLAIN}"
@@ -940,6 +994,7 @@ self-menu() {
 		4) 4_up_kejilion ;;
 		5) 5_install_v2raya ;;
 		6) 6_up_geo_data ;;
+		6) 7_install_ssltls ;;
 		8) 8_docker_compose_and_certs ;;
 		9) 9_install_bash-completion ;;
 		10) 10_ainstall_v2raya_openwrt ;;
