@@ -972,7 +972,7 @@ self-menu() {
 	echo " -------------"
 	echo -e " ${GREEN}5.${PLAIN} 在 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 中安装 v2raya${PLAIN}"
 	echo -e " ${GREEN}6.${PLAIN} 更新GEO文件${PLAIN}"
-	echo -e " ${GREEN}7.${PLAIN} 证书一键申${PLAIN}"
+	echo -e " ${GREEN}7.${PLAIN} 证书一键申请${PLAIN}"
 	echo " -------------"
 	echo -e " ${GREEN}8.${PLAIN} 自用 ${RED}docker compose ${PLAIN}配置文件下载及${RED}certs${PLAIN}文件夹设置${PLAIN}"
 	echo -e " ${GREEN}9.${PLAIN} 解决 ${RED}Debian${PLAIN} ${RED}Ubuntu${PLAIN} 命令补全问题${PLAIN}"
