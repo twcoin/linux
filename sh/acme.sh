@@ -703,6 +703,7 @@ self-menu
 }
 #自用 docker-compose.yml下载及certs文件夹设置
 8_docker_compose_and_certs() {
+mkdir -p /home/web /root/certs /home/docker /root/shell
 echo ""
 echo ""
 echo ""
