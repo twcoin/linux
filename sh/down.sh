@@ -1,5 +1,5 @@
 #!/bin/bash
-#apt update && apt install wget curl htop file socat -y
+#apt update && apt install -y wget curl htop file socat
 cd ~ && touch acme.sh && chmod +x acme.sh
 ln -sf ~/acme.sh /usr/local/bin/zs
 githubusercontent_URL="https://raw.githubusercontent.com/twcoin/linux/main/sh/acme.sh"
