@@ -1,10 +1,15 @@
 #!/bin/bash
-#Update-Time：20240615
+#Update-Time：20240630
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
 cd ~ && touch acme.sh && chmod +x acme.sh
 ln -sf ~/acme.sh /usr/local/bin/zs
+
+#proxy
+export http_proxy="http://10.1.1.222:20172"
+export https_proxy="http://10.1.1.222:20172"
+
 
 #红色
 RED="\033[31m"
@@ -1029,4 +1034,5 @@ bash ChangeMirrors.sh --abroad
 self-menu
 }
 #clear
+#self-menu
 8_docker_compose_and_certs
