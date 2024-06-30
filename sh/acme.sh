@@ -1,5 +1,5 @@
 #!/bin/bash
-#Update-Time：20240630
+#Update-Time：20240629
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
@@ -589,6 +589,7 @@ echo "deb [signed-by=/etc/apt/keyrings/v2raya.asc] https://apt.v2raya.org/ v2ray
 echo -e "${GREEN}添加软件源完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
 apt update
 apt install v2raya xray
+chmod 755 /usr/share/xray/geo*.dat
 systemctl start v2raya.service
 systemctl enable v2raya.service
 echo -e "${GREEN}v2raya安装完成${PLAIN}[${RED}ok${PLAIN}]${PLAIN}"
