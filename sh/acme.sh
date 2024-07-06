@@ -7,8 +7,8 @@ cd ~ && touch acme.sh && chmod +x acme.sh
 ln -sf ~/acme.sh /usr/local/bin/zs
 
 #proxy
-#export http_proxy="http://10.1.1.222:20172"
-#export https_proxy="http://10.1.1.222:20172"
+#export http_proxy="http://127.0.0.1:xx"
+#export https_proxy="http://127.0.0.1:xx"
 
 
 #红色
