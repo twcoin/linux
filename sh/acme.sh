@@ -341,8 +341,8 @@ renew_cert() {
 	[[ -z $domain ]] && red "未输入域名, 无法执行操作!" && exit 1
 	if [[ -n $(bash ~/.acme.sh/acme.sh --list | grep $domain) ]]; then
 		bash ~/.acme.sh/acme.sh --renew -d ${domain} --force --ecc
-		bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
-		bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+		#bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
+		#bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
 		checktls
 		back2menu
 	else
