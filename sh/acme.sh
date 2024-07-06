@@ -1,5 +1,5 @@
 #!/bin/bash
-#Update-Time：20240630
+#Update-Time：20240705
 
 mkdir -p /home/web /root/certs /home/docker /root/shell
 
@@ -7,9 +7,8 @@ cd ~ && touch acme.sh && chmod +x acme.sh
 ln -sf ~/acme.sh /usr/local/bin/zs
 
 #proxy
-#export http_proxy="http://127.0.0.1:xx"
-#export https_proxy="http://127.0.0.1:xx"
-
+#export http_proxy="http://127.0.0.1:20172"
+#export https_proxy="http://127.0.0.1:20172"
 
 #红色
 RED="\033[31m"
