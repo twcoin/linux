@@ -269,8 +269,8 @@ acme_cfapiNTLD(){
 	else
 		bash ~/.acme.sh/acme.sh --issue --dns dns_cf -d "*.${domain}" -d "${domain}" -k ec-256 --insecure
 	fi
-	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
-	bash ~/.acme.sh/acme.sh --install-cert -d "${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
+	bash ~/.acme.sh/acme.sh --install-cert -d "*.${domain}" --key-file /root/certs/${domain}_private.key --fullchain-file /root/certs/${domain}_cert.crt --ecc
+	bash ~/.acme.sh/acme.sh --install-cert -d "*.${domain}" --key-file /root/certs/${domain}_key.pem --fullchain-file /root/certs/${domain}_cert.pem --ecc
 	checktls ${domain}  # 传递域名到checktls函数
 }
 #
