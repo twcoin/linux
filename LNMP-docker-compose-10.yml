@@ -1,8 +1,10 @@
-
-services:
+ervices:
   nginx:
     image: nginx:alpine
     container_name: nginx
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.2
     restart: always
     ports:
       - "80:80"
@@ -21,6 +23,9 @@ services:
   php:
     image: php:fpm-alpine
     container_name: php
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.3
     restart: always
     volumes:
       - ./html:/var/www/html
@@ -28,6 +33,9 @@ services:
   php74:
     image: php:7.4-fpm-alpine
     container_name: php74
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.4
     restart: always
     volumes:
       - ./html:/var/www/html
@@ -35,6 +43,9 @@ services:
   mysql:
     image: mysql
     container_name: mysql
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.5
     restart: always
     volumes:
       - ./mysql:/var/lib/mysql
@@ -43,19 +54,25 @@ services:
       MYSQL_USER: kejilion
       MYSQL_PASSWORD: kejilionYYDS
 
-  redis:
+    redis:
     image: redis:alpine
     container_name: redis
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.6
     restart: always
     volumes:
       - ./redis:/data
 
   3xui:
-  ##docker exec 3xui /app/x-ui setting -show
-  ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
-  ##docker compose -f /home/docker/3x-ui.yml up -d
+    ##docker exec 3xui /app/x-ui setting -show
+    ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
+    ##docker compose -f /home/docker/3x-ui.yml up -d
     image: ghcr.io/mhsanaei/3x-ui
     container_name: 3xui
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.0.7
     restart: always
     #network_mode: bridge
     #network_mode: host
@@ -84,3 +101,11 @@ services:
     #依赖的容器列表，只有这些容器都成功启动了，才会启动当前容器
     #depends_on:
       #- php
+
+networks:
+    mynet_web:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.0.0/24"
