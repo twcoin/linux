@@ -1,20 +1,27 @@
 #version: '3.8'
 services:
-  3xui:
-  ##docker exec 3xui /app/x-ui setting -show
-  ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
-  ##docker compose -f /home/docker/3x-ui.yml up -d
+3xui:
+    ##docker exec 3xui /app/x-ui setting -show
+    ##docker exec 3xui /app/x-ui setting -username xxx -password xxxx
+    ##docker compose -f /home/docker/3x-ui.yml up -d
     image: ghcr.io/mhsanaei/3x-ui
     container_name: 3xui
+    networks:
+      mynet_web:
+        ipv4_address: 172.18.1.2
     restart: always
     #network_mode: bridge
-    network_mode: host
-    #ports:
-      #- "2053:2053"
+    #network_mode: host
+    ports:
+      - "20530:2053"
+      - "271920:27192"
+      - "220960:22096"
+      - "274680:27468"
+      - "84430:8443"
     #expose仅将指定的端口暴露给links的容器，而不对宿主机开放。
     #和ports的区别在于，ports可以映射宿主机别的端口到容器中。
-    #expose:
-      #- "3306"
+    #expose: 
+      #- "8443"
     volumes:
       - ./db_3xui:/etc/x-ui
       - ./certs:/root/cert
