@@ -7,7 +7,7 @@ services:
     image: ghcr.io/mhsanaei/3x-ui
     container_name: 3xui
     networks:
-      mynet_web:
+      mynet:
         ipv4_address: 172.18.1.2
     restart: always
     #network_mode: bridge
