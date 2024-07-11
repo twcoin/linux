@@ -1,0 +1,55 @@
+#version: '3.8'
+services:
+  mosdns:
+    #image: registry.cn-chengdu.aliyuncs.com/irinesistiana/mosdns:latest
+    image: irinesistiana/mosdns
+    container_name: mosdns
+    networks:
+      mynet_mosdns:
+        ipv4_address: 172.18.1.2
+    volumes:
+      - ./mosdns/etc/mosdns:/etc/mosdns
+      - ./mosdns/var/mosdns:/var/mosdns
+      - ./mosdns/opt:/opt
+      - ./mosdns/var/disable-ads.txt:/var/disable-ads.txt
+      #- ./mosdns/cache:/var/cache/mosdns
+      - ./mosdns/log:/tmp
+    ports:
+      - "5335:5335/udp"
+      - "5335:5335/tcp"
+    restart: unless-stopped
+
+  adguardhome:
+    #image: registry.cn-chengdu.aliyuncs.com/adguard/adguardhome:latest
+    image: adguard/adguardhome
+    container_name: adguardhome
+    networks:
+      mynet_mosdns:
+        ipv4_address: 172.18.1.3
+    volumes:
+      - ./adguardhome/workdir:/opt/adguardhome/work
+      - ./adguardhome/confdir:/opt/adguardhome/conf
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "67:67/udp"
+      - "68:68/udp"
+      - "8008:80/tcp"
+      - "443:443/tcp"
+      - "443:443/udp"
+      - "3000:3000/tcp"
+      - "853:853/tcp"
+      - "853:853/udp"
+      - "784:784/udp"
+      - "8853:8853/udp"
+      - "5443:5443/tcp"
+      - "5443:5443/udp"
+    restart: unless-stopped
+
+networks:
+  mynet_mosdns:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.1.0/24"
