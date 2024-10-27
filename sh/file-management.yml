@@ -1,0 +1,38 @@
+## Modified: 2024-07-28
+#version: '3.8'
+services:
+  dufs-web:
+    image: sigoden/dufs
+    container_name: down-web-dufs
+    #restart: always
+    restart: unless-stopped
+    networks:
+      mynet:
+    volumes:
+    - ./FileManagement:/data
+    ports:
+    - 5000:5000
+    #- .:/data
+    #--allow-all 允许所有操作
+    #--allow-upload 允许上传文件/文件夹
+    #--allow-delete 允许删除文件/文件夹
+    #--allow-search 允许搜索文件/文件夹
+    #--allow-symlink 允许符号链接到根目录之外的文件/文件夹
+    #--allow-archive 允许生成 zip 存档
+    #--auth 添加身份验证角色
+    #根据个人需要求设置
+    
+    #影藏部分文件
+    #command: /data --allow-all --hidden *.sh,*.conf,*.yml --auth fileuser:filepassword@/:rw
+    
+    command: /data --allow-all --auth fileuser:filepassword@/:rw
+    
+    #command: /data  --allow-all --hidden *.sh,*.conf,*.yml --auth fileuser:filepassword@/
+    
+    #允许收索并带身份认证
+    #command: /data --allow-search --auth fileuser:filepassword@/:rw
+
+#使用之前创建的网络“mynet”  docker network create --subnet=172.20.0.0/16 --gateway=172.20.0.1 mynet
+networks:
+  mynet:
+    external: true
