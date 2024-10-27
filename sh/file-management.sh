@@ -72,7 +72,7 @@ FILE_Creating
 echo -e ""
 echo -e ""
 data_path="/home"
-curl -K ~/shell/curl-down -kfSL -o "$data_path"/file-management.yml https://file.coinbak.eu.org:8043/docker-compose/file-management.yml
+curl -K ~/shell/curl-down -kfSL -o "$data_path"/file-management.yml https://raw.githubusercontent.com/twcoin/linux/refs/heads/main/sh/file-management.yml
 fileuser=$(openssl rand -hex 4) ; filepassword=$(openssl rand -base64 9)
 # 在 docker compose yml配置文件中进行替换
 sed -i "s#fileuser#$fileuser#g" "$data_path"/file-management.yml
